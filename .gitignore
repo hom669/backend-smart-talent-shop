@@ -1,0 +1,38 @@
+# Carpetas de dependencias y construcciones
+node_modules/
+dist/
+build/
+out/
+
+# Archivos de configuración y entornos sensibles
+.env
+*.env
+config/
+keys/
+
+# Caché y archivos temporales
+.nyc_output/
+coverage/
+tmp/
+*.log
+*.lock
+*.swp
+*.swo
+*.bak
+*.old
+
+# Configuraciones del entorno de desarrollo
+.DS_Store       # Archivos específicos de macOS
+.idea/          # Carpetas de IDE como JetBrains (WebStorm, IntelliJ)
+.vscode/        # Configuraciones de Visual Studio Code
+.vscode-test/   # Para VS Code Testing
+
+# Archivos de ejecución e instalación
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json # Si usas Yarn, puedes ignorar esto. Para npm, manténlo bajo control de versiones.
+.pnpm-store/     # Directorio de caché de pnpm
+
+# Otros
+.eslintcache     # Caché de ESLint
