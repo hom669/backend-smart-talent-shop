@@ -20,8 +20,10 @@ class Server {
         this.listen();
         this.midlewares();
         this.routes();
-        this.dbConnect();
-        console.log(process.env.PORT)
+        if (process.env.HOST_DB) {
+            console.log(process.env.HOST_DB)
+            this.dbConnect();
+        }
     }
 
     listen() {
