@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Product } from '../models/product';
+import { generateRandomCode, imageRandon } from '../utils/randomCode';
 
 export const getProducts = async (req: Request, res: Response) => {
     const listProducts = await Product.findAll();
@@ -16,8 +17,7 @@ export const editProduct = async (req: Request, res: Response) => {
                 stock: stock,
                 price: price,
                 name: name,
-                description: description,
-
+                description: description
             },
             { where: { id: idProduct } }
         );
@@ -56,25 +56,6 @@ export const addProduct = async (req: Request, res: Response) => {
     const idProduct = req.params.idProduct;
     const { description, name, price, stock, userCreatedId } = req.body
 
-    const filenames: string[] = [
-        "product10.webp",
-        "product11.webp",
-        "product12.webp",
-        "product13.webp",
-        "product14.webp",
-        "product1.webp",
-        "product2.webp",
-        "product3.webp",
-        "product5.webp",
-        "product6.webp",
-        "product7.webp",
-        "product8.webp",
-        "product9.webp",
-    ];
-    const randomIndex = Math.floor(Math.random() * filenames.length); // Índice aleatorio
-    const imageRandon = filenames[randomIndex]; // Devolver el elemento en el índice aleatorio
-
-
     try {
         const createProduct = await Product.create({
             stock: stock,
@@ -82,7 +63,8 @@ export const addProduct = async (req: Request, res: Response) => {
             name: name,
             description: description,
             userCreated: userCreatedId,
-            image: imageRandon
+            image: imageRandon,
+            codeProduct: generateRandomCode()
         });
         res.json({
             msg: `Producto Creado Correctamente.`,

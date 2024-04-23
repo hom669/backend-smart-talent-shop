@@ -35,12 +35,15 @@ exports.Product = connection_1.default.define('product', {
             key: 'id'
         }
     },
+    codeProduct: {
+        type: sequelize_1.DataTypes.STRING
+    }
 });
 exports.Product.belongsTo(user_1.default, {
-    foreignKey: 'userCreatedId',
+    foreignKey: 'userCreated',
     as: 'creator' // Alias cambiado para evitar colisiones
 });
 user_1.default.hasMany(exports.Product, {
-    foreignKey: 'userCreatedId',
+    foreignKey: 'userCreated',
     as: 'createdProducts' // Alias más descriptivo
 });

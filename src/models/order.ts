@@ -17,6 +17,9 @@ export const Order = sequelize.define('order', {
     },
     totalOrder: {
         type: DataTypes.INTEGER
+    },
+    codeOrder: {
+        type: DataTypes.STRING
     }
 });
 

@@ -10,9 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createOrder = exports.getOrdersAll = exports.getOrders = void 0;
+const product_1 = require("./../models/product");
 const order_1 = require("../models/order");
-const product_1 = require("../models/product");
 const orderDetail_1 = require("../models/orderDetail");
+const randomCode_1 = require("../utils/randomCode");
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.idUser;
     const listOrders = yield order_1.Order.findAll({
@@ -30,7 +31,7 @@ const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 attributes: ['quantity', 'valueTotal']
             }
         ],
-        attributes: ['id', 'createdAt', 'totalOrder'],
+        attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder'],
         where: [{ idUser: userId }]
     });
     res.json(listOrders);
@@ -52,7 +53,7 @@ const getOrdersAll = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 attributes: ['quantity', 'valueTotal']
             }
         ],
-        attributes: ['id', 'createdAt', 'totalOrder']
+        attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder']
     });
     res.json(listOrders);
 });
@@ -63,6 +64,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const orderCreate = yield order_1.Order.create({
             idUser,
             totalOrder: total,
+            codeOrder: (0, randomCode_1.generateRandomCode)()
         });
         if (orderCreate) {
             for (let index = 0; index < items.length; index++) {
@@ -104,6 +106,11 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 }
             }
         }
+        if (orderCreate) {
+            res.json({
+                msg: `Orden ${orderCreate.codeOrder} Creada Correctamente.`,
+            });
+        }
     }
     catch (error) {
         res.status(400).json({
@@ -111,8 +118,5 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             error: error
         });
     }
-    res.json({
-        msg: `Orden Creada Correctamente.`,
-    });
 });
 exports.createOrder = createOrder;

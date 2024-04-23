@@ -1,14 +1,16 @@
+import { Product } from './../models/product';
 import { Request, Response } from 'express';
 import { Order } from '../models/order';
-import { Product } from '../models/product';
 import { OrderDetail } from '../models/orderDetail';
 import { Model } from 'sequelize';
+import { generateRandomCode } from '../utils/randomCode';
 
 
 interface IOrder extends Model {
     id: number,
     idUser: number,
     totalOrder: number
+    codeOrder: string
 }
 
 interface IOrderDetails extends Model {
@@ -40,7 +42,7 @@ export const getOrders = async (req: Request, res: Response) => {
                 attributes: ['quantity', 'valueTotal']
             }
         ],
-        attributes: ['id', 'createdAt', 'totalOrder'],
+        attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder'],
         where: [{ idUser: userId }]
     });
     res.json(listOrders)
@@ -62,7 +64,7 @@ export const getOrdersAll = async (req: Request, res: Response) => {
                 attributes: ['quantity', 'valueTotal']
             }
         ],
-        attributes: ['id', 'createdAt', 'totalOrder']
+        attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder']
     });
     res.json(listOrders)
 }
@@ -73,6 +75,7 @@ export const createOrder = async (req: Request, res: Response) => {
         const orderCreate = await Order.create({
             idUser,
             totalOrder: total,
+            codeOrder: generateRandomCode()
         }) as IOrder | null;
 
         if (orderCreate) {
@@ -126,6 +129,12 @@ export const createOrder = async (req: Request, res: Response) => {
             }
         }
 
+        if (orderCreate) {
+            res.json({
+                msg: `Orden ${orderCreate.codeOrder} Creada Correctamente.`,
+            })
+        }
+
     } catch (error) {
         res.status(400).json({
             msg: "Ups Ocurrio un Error",
@@ -133,7 +142,5 @@ export const createOrder = async (req: Request, res: Response) => {
         })
     }
 
-    res.json({
-        msg: `Orden Creada Correctamente.`,
-    })
+
 }

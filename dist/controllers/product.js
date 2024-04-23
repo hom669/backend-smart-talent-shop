@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addProduct = exports.deleteProduct = exports.editProduct = exports.getProducts = void 0;
 const product_1 = require("../models/product");
+const randomCode_1 = require("../utils/randomCode");
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProducts = yield product_1.Product.findAll();
     res.json(listProducts);
@@ -25,7 +26,7 @@ const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             stock: stock,
             price: price,
             name: name,
-            description: description,
+            description: description
         }, { where: { id: idProduct } });
         res.json({
             msg: `Producto Actualizado Correctamente.`,
@@ -58,23 +59,6 @@ exports.deleteProduct = deleteProduct;
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const idProduct = req.params.idProduct;
     const { description, name, price, stock, userCreatedId } = req.body;
-    const filenames = [
-        "product10.webp",
-        "product11.webp",
-        "product12.webp",
-        "product13.webp",
-        "product14.webp",
-        "product1.webp",
-        "product2.webp",
-        "product3.webp",
-        "product5.webp",
-        "product6.webp",
-        "product7.webp",
-        "product8.webp",
-        "product9.webp",
-    ];
-    const randomIndex = Math.floor(Math.random() * filenames.length); // Índice aleatorio
-    const imageRandon = filenames[randomIndex]; // Devolver el elemento en el índice aleatorio
     try {
         const createProduct = yield product_1.Product.create({
             stock: stock,
@@ -82,7 +66,8 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             name: name,
             description: description,
             userCreated: userCreatedId,
-            image: imageRandon
+            image: randomCode_1.imageRandon,
+            codeProduct: (0, randomCode_1.generateRandomCode)()
         });
         res.json({
             msg: `Producto Creado Correctamente.`,

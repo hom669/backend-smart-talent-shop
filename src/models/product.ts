@@ -30,15 +30,18 @@ export const Product = sequelize.define('product', {
             key: 'id'
         }
     },
+    codeProduct: {
+        type: DataTypes.STRING
+    }
 
 })
 
 Product.belongsTo(User, {
-    foreignKey: 'userCreatedId',
+    foreignKey: 'userCreated',
     as: 'creator' // Alias cambiado para evitar colisiones
 });
 
 User.hasMany(Product, { // Cambio a hasMany si un usuario puede crear múltiples productos
-    foreignKey: 'userCreatedId',
+    foreignKey: 'userCreated',
     as: 'createdProducts' // Alias más descriptivo
 });

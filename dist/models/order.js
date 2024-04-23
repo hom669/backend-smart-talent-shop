@@ -22,6 +22,9 @@ exports.Order = connection_1.default.define('order', {
     },
     totalOrder: {
         type: sequelize_1.DataTypes.INTEGER
+    },
+    codeOrder: {
+        type: sequelize_1.DataTypes.STRING
     }
 });
 // Establecer la relación entre Order y User
