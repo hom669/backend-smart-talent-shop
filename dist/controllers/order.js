@@ -8,12 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createOrder = exports.getOrdersAll = exports.getOrders = void 0;
 const product_1 = require("./../models/product");
 const order_1 = require("../models/order");
 const orderDetail_1 = require("../models/orderDetail");
 const randomCode_1 = require("../utils/randomCode");
+const user_1 = __importDefault(require("../models/user"));
+const userDetail_1 = __importDefault(require("../models/userDetail"));
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.idUser;
     const listOrders = yield order_1.Order.findAll({
@@ -50,7 +55,19 @@ const getOrdersAll = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                         attributes: ['id', 'name', 'price', 'image', 'description']
                     }
                 ],
-                attributes: ['quantity', 'valueTotal']
+                attributes: ['quantity', 'valueTotal'],
+            },
+            {
+                model: user_1.default,
+                as: 'user',
+                include: [
+                    {
+                        model: userDetail_1.default,
+                        as: 'details',
+                        attributes: ['fullName', 'identification', 'email']
+                    }
+                ],
+                attributes: ['id', 'username']
             }
         ],
         attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder']

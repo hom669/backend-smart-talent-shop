@@ -4,6 +4,8 @@ import { Order } from '../models/order';
 import { OrderDetail } from '../models/orderDetail';
 import { Model } from 'sequelize';
 import { generateRandomCode } from '../utils/randomCode';
+import User from '../models/user';
+import UserDetail from '../models/userDetail';
 
 
 interface IOrder extends Model {
@@ -61,7 +63,20 @@ export const getOrdersAll = async (req: Request, res: Response) => {
                         attributes: ['id', 'name', 'price', 'image', 'description']
                     }
                 ],
-                attributes: ['quantity', 'valueTotal']
+                attributes: ['quantity', 'valueTotal'],
+
+            },
+            {
+                model: User,
+                as: 'user',
+                include: [
+                    {
+                        model: UserDetail,
+                        as: 'details',
+                        attributes: ['fullName', 'identification', 'email']
+                    }
+                ],
+                attributes: ['id', 'username']
             }
         ],
         attributes: ['id', 'createdAt', 'totalOrder', 'codeOrder']
