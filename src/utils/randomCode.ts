@@ -31,20 +31,8 @@ export const generateRandomCode = (): string => {
     return combined.join('');
 };
 
-const filenames: string[] = [
-    "product10.webp",
-    "product11.webp",
-    "product12.webp",
-    "product13.webp",
-    "product14.webp",
-    "product1.webp",
-    "product2.webp",
-    "product3.webp",
-    "product5.webp",
-    "product6.webp",
-    "product7.webp",
-    "product8.webp",
-    "product9.webp",
-];
-const randomIndex = Math.floor(Math.random() * filenames.length); // Índice aleatorio
-export const imageRandon = filenames[randomIndex]; // Devolver el elemento en el índice aleatorio
+export const imageRandomAuto = (nameImage: string): string => {
+    const wordSearch = nameImage.split(' ');
+    //console.log(wordSearch[0].trim(), process.env.REP_IMAGE);
+    return process.env.REP_IMAGE + wordSearch[0].trim();
+}

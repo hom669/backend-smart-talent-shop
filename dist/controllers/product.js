@@ -26,7 +26,8 @@ const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             stock: stock,
             price: price,
             name: name,
-            description: description
+            description: description,
+            image: (0, randomCode_1.imageRandomAuto)(name)
         }, { where: { id: idProduct } });
         res.json({
             msg: `Producto Actualizado Correctamente.`,
@@ -66,7 +67,7 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             name: name,
             description: description,
             userCreated: userCreatedId,
-            image: randomCode_1.imageRandon,
+            image: (0, randomCode_1.imageRandomAuto)(name),
             codeProduct: (0, randomCode_1.generateRandomCode)()
         });
         res.json({

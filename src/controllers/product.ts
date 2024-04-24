@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Product } from '../models/product';
-import { generateRandomCode, imageRandon } from '../utils/randomCode';
+import { generateRandomCode, imageRandomAuto } from '../utils/randomCode';
 
 export const getProducts = async (req: Request, res: Response) => {
     const listProducts = await Product.findAll();
@@ -17,7 +17,8 @@ export const editProduct = async (req: Request, res: Response) => {
                 stock: stock,
                 price: price,
                 name: name,
-                description: description
+                description: description,
+                image: imageRandomAuto(name)
             },
             { where: { id: idProduct } }
         );
@@ -63,7 +64,7 @@ export const addProduct = async (req: Request, res: Response) => {
             name: name,
             description: description,
             userCreated: userCreatedId,
-            image: imageRandon,
+            image: imageRandomAuto(name),
             codeProduct: generateRandomCode()
         });
         res.json({
